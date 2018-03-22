@@ -59,70 +59,70 @@ The first node we'll create is a Python node for loading documents from Cloudant
 1. Select the Code operator and a right pane will open for editing the code.
 ![](code-operator-streams-designer.png)
 1. Select `Python 3.5` as the coding language and replace the existing code with:
-```python
-import sys
-from cloudant import Cloudant
-from cloudant.feed import Feed
-
-# init() function will be called once on pipeline initialization
-# @state a Python dictionary object for keeping state. The state object is passed to the produce function
-
-
-def init(state):
-    # do something once on pipeline initialization and save in the state object
-    pass
-
-
-# produce() function will be called when the job starts to run.
-# It is called on a background thread, and it will typically invoke the 'submit()' callback
-# whenever a tuple of data is ready to be emitted from this operator.
-# This allows for using asynchronous data services as well as synchronous data generation or retrieval.
-# @submit a Python callback function that takes one argument: a dictionary representing a single tuple.
-# @state a Python dictionary object for keeping state
-# You must declare all output attributes in the Edit Schema window.
-def produce(submit, state):
-    client = Cloudant(
-        'username',
-        'password',
-        account='account',
-        connect=True
-    )
-    db = client['animaldb']
-    feed = Feed(db, feed='continuous', include_docs=True)
-    for change in feed:
-        doc = change['doc']
-        if 'payload' in doc:
-            output_doc = {}
-            output_doc['id'] = doc['_id']
-            output_doc['rev'] = doc['_rev']
-            if 'wiki_page' in doc['payload']:
-                output_doc['wiki_page'] = doc['payload']['wiki_page']
-            if 'min_weight' in doc['payload']:
-                output_doc['min_weight'] = doc['payload']['min_weight']
-            if 'max_weight' in doc['payload']:
-                output_doc['max_weight'] = doc['payload']['max_weight']
-            if 'class' in doc['payload']:
-                output_doc['class'] = doc['payload']['class']
-            if 'diet' in doc['payload']:
-                output_doc['diet'] = doc['payload']['diet']
-            # Submit a tuple in each iteration:
-            submit(output_doc)
-```
+    ```python
+    import sys
+    from cloudant import Cloudant
+    from cloudant.feed import Feed
+    
+    # init() function will be called once on pipeline initialization
+    # @state a Python dictionary object for keeping state. The state object is passed to the produce function
+    
+    
+    def init(state):
+        # do something once on pipeline initialization and save in the state object
+        pass
+    
+    
+    # produce() function will be called when the job starts to run.
+    # It is called on a background thread, and it will typically invoke the 'submit()' callback
+    # whenever a tuple of data is ready to be emitted from this operator.
+    # This allows for using asynchronous data services as well as synchronous data generation or retrieval.
+    # @submit a Python callback function that takes one argument: a dictionary representing a single tuple.
+    # @state a Python dictionary object for keeping state
+    # You must declare all output attributes in the Edit Schema window.
+    def produce(submit, state):
+        client = Cloudant(
+            'username',
+            'password',
+            account='account',
+            connect=True
+        )
+        db = client['animaldb']
+        feed = Feed(db, feed='continuous', include_docs=True)
+        for change in feed:
+            doc = change['doc']
+            if 'payload' in doc:
+                output_doc = {}
+                output_doc['id'] = doc['_id']
+                output_doc['rev'] = doc['_rev']
+                if 'wiki_page' in doc['payload']:
+                    output_doc['wiki_page'] = doc['payload']['wiki_page']
+                if 'min_weight' in doc['payload']:
+                    output_doc['min_weight'] = doc['payload']['min_weight']
+                if 'max_weight' in doc['payload']:
+                    output_doc['max_weight'] = doc['payload']['max_weight']
+                if 'class' in doc['payload']:
+                    output_doc['class'] = doc['payload']['class']
+                if 'diet' in doc['payload']:
+                    output_doc['diet'] = doc['payload']['diet']
+                # Submit a tuple in each iteration:
+                submit(output_doc)
+    ```
 1. Select the `Edit Output Schema` below the code editor.
 1. Add the following attribute names and their types using the **Add Attribute** button.
-Press **Save** then **Close** when finished.
+   Press **Save** then **Close** when finished.
 
-Name | Type
---- | --- 
-id | Text
-rev | Text
-wiki_page | Text
-min_weight | Number
-max_weight | Number
-class | Text
-diet | Text
+    Name | Type
+    --- | --- 
+    id | Text
+    rev | Text
+    wiki_page | Text
+    min_weight | Number
+    max_weight | Number
+    class | Text
+    diet | Text
 
-![](attributes-code-streams-designer.png)
+    ![](attributes-code-streams-designer.png)
 
 1. Select the floppy disk icon in the Stream Designer toolbar to save the flow.
 1. Drag and drop the Db2 Warehouse on Cloud operator under **Targets** on to the canvas.
@@ -142,6 +142,7 @@ port of the Db2 operator.
 1. Assign the attributes previously created in the Code operator to it's equivalent Db2 target column, and then press **Save**.
 ![](assign-attributes-db2-operator.png)
 1. Press the play icon in the Stream Designer toolbar to save and run the streams flow.
+![](play-icon-stream-designer.png)
 1. The Status indicator in the Metrics page will change from "Stopped" to "Starting", and then to “Running”.
 ![](starting)
 ![](running)
