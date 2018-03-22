@@ -121,6 +121,7 @@ min_weight | Number
 max_weight | Number
 class | Text
 diet | Text
+
 ![](attributes-code-streams-designer.png)
 
 1. Select the floppy disk icon in the Stream Designer toolbar to save the flow.
