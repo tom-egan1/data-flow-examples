@@ -58,7 +58,8 @@ The first node we'll create is a Python node for loading documents from Cloudant
 1. Drag and drop the Code operator under **Sources** on to the canvas.
 1. Select the Code operator and a right pane will open for editing the code.
 ![](code-operator-streams-designer.png)
-1. Select `Python 3.5` as the coding language and replace the existing code with:
+1. Select `Python 3.5` as the coding language and replace what's existing with the code below.<br/>
+   **Note:** Add your Cloudant credentials as parameters on line `client = Cloudant(...)`.
     ```python
     import sys
     from cloudant import Cloudant
@@ -81,6 +82,7 @@ The first node we'll create is a Python node for loading documents from Cloudant
     # @state a Python dictionary object for keeping state
     # You must declare all output attributes in the Edit Schema window.
     def produce(submit, state):
+        # Replace with your Cloudant credentials
         client = Cloudant(
             'username',
             'password',
@@ -93,8 +95,8 @@ The first node we'll create is a Python node for loading documents from Cloudant
             doc = change['doc']
             if 'payload' in doc:
                 output_doc = {}
-                output_doc['id'] = doc['_id']
-                output_doc['rev'] = doc['_rev']
+                output_doc['_id'] = doc['_id']
+                output_doc['_rev'] = doc['_rev']
                 if 'wiki_page' in doc['payload']:
                     output_doc['wiki_page'] = doc['payload']['wiki_page']
                 if 'min_weight' in doc['payload']:
@@ -129,7 +131,9 @@ The first node we'll create is a Python node for loading documents from Cloudant
 1. Select the Db2 Warehouse on Cloud operator and a right pane will open for adding connection details.
 ![](db2-operator-streams-designer.png)
 1. Click `Add Connection` and select the Db2 Warehouse on Cloud instance that was previously created.
-Select **Create** to finish.
+Select **Create** to finish.<br/>
+**Note:** If `Your service instances in IBM Cloud` is empty, you can [grab the JDBC connection string](../db2/connection_details.md)
+and create a connection manually. 
 ![](db2-operator-add-connection.png)
 1. Click on the icon under **Schema/Table** to select the Db2 table.
 1. Select your schema and `ANIMALS` table, then press **Select**.
