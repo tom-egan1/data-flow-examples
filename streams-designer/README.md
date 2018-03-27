@@ -36,28 +36,28 @@ These are the IBM Bluemix services required to run this tutorial:
 
 ## Create a Watson Studio project
 1. In the Watson Studio instance, open the Watson Studio app by pressing `Get Started`.
-![](get-started-watson-studio.png)
+![Get Started with Watson Studio](get-started-watson-studio.png)
 1. Create a new project by selecting `New Project`.
-![](new-project-watson-studio.png)
+![Select New Project in Watson Studio](new-project-watson-studio.png)
 1. Select the `Streams Designer` tile and press OK.
 1. On the **New project** screen, add a name and optional description for the project, then press **Create**.<br/>
 **Note**: The previously created Streaming Analytics service should be pre-selected as seen in the screenshot.  If the 
 Cloud Object Storage instance was not created beforehand, you will have the option of adding one.
-![](create-new-project-watson-studio.png) 
+![Create New Project in Watson Studio](create-new-project-watson-studio.png) 
 
 ## Create a Streams flow
 1. Create a new Streams flow under the `Add to project` drop-down list.
-![](streams-flow-watson-studio.png)
+![Select Streams flow](streams-flow-watson-studio.png)
 1. On the **New Streams Flow** screen, add a name and optional description for the project. 
 The Streaming Analytics service drop-down box should already be filled in.  
 Select the **Manually** box, then press **Create**.
-![](create-streams-flow-watson-studio.png)
+![Create Streams flow](create-streams-flow-watson-studio.png)
 
 ## Create operators in the Streams Designer editor
 The first node we'll create is a Python node for loading documents from Cloudant.
 1. Drag and drop the Code operator under **Sources** on to the canvas.
 1. Select the Code operator and a right pane will open for editing the code.
-![](code-operator-streams-designer.png)
+![Code operator in Streams Designer](code-operator-streams-designer.png)
 1. Select `Python 3.5` as the coding language and replace what's existing with the code below.<br/>
    **Note:** Add your Cloudant credentials as parameters on line `client = Cloudant(...)`.
     ```python
@@ -124,29 +124,29 @@ The first node we'll create is a Python node for loading documents from Cloudant
     class | Text
     diet | Text
 
-    ![](attributes-code-streams-designer.png)
+    ![Output Schema for Code Operator](attributes-code-streams-designer.png)
 
 1. Select the floppy disk icon in the Stream Designer toolbar to save the flow.
 1. Drag and drop the Db2 Warehouse on Cloud operator under **Targets** on to the canvas.
 1. Select the Db2 Warehouse on Cloud operator and a right pane will open for adding connection details.
-![](db2-operator-streams-designer.png)
+![Db2 operator in Streams Designer](db2-operator-streams-designer.png)
 1. Click `Add Connection` and select the Db2 Warehouse on Cloud instance that was previously created.
 Select **Create** to finish.<br/>
 **Note:** If `Your service instances in IBM Cloud` is empty, you can [grab the JDBC connection string](../db2/connection_details.md)
 and create a connection manually. 
-![](db2-operator-add-connection.png)
+![Add Db2 connection](db2-operator-add-connection.png)
 1. Click on the icon under **Schema/Table** to select the Db2 table.
 1. Select your schema and `ANIMALS` table, then press **Select**.
-![](select-schema-table-db2-operator.png)
+![Select schema in Db2 operator](select-schema-table-db2-operator.png)
 1. Link the two operators together by dragging your mouse cursor from the output port of the Code operator to the input 
 port of the Db2 operator.
-![](link-operators-streams-designer.png)
+![Link operators in Streams Designer](link-operators-streams-designer.png)
 1. Select **Map Schema** in the Db2 operator's right pane.
-![](map-schema-db2-operator.png)
+![Select Map Schema in Db2 operator](map-schema-db2-operator.png)
 1. Assign the attributes previously created in the Code operator to it's equivalent Db2 target column, and then press **Save**.
-![](assign-attributes-db2-operator.png)
+![Map attributes to Db2 target columns](assign-attributes-db2-operator.png)
 1. Press the play icon in the Stream Designer toolbar to save and run the streams flow.
-![](play-icon-stream-designer.png)
+![Play icon in Streams Designer](play-icon-stream-designer.png)
 1. The Status indicator in the Metrics page will change from "Stopped" to "Starting", and then to “Running”.
 ![](starting)
 ![](running)
