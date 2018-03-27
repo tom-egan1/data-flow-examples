@@ -1,12 +1,12 @@
-# Simple load from Cloudant to Db2 in Streams Designer (Beta)
+# Simple load from Cloudant to Db2 in `Streams Designer (Beta)`
 This tutorial is an introduction on loading Cloudant documents and saving that data into Db2 within Streams Designer.
 In this tutorial you will:
 
-1. Set up IBM services Cloudant, Streaming Analytics, Watson Studio, and Db2 Warehouse on Cloud.
-1. Create a Python code operator that will load Cloudant documents from the `_changes` endpoint.
-1. Edit the output schema for the Python code operator.
+1. Set up IBM services: Cloudant, Streaming Analytics, Watson Studio, and Db2 Warehouse on Cloud.
+1. Create a Python `Code` operator that will load Cloudant documents from the `_changes` endpoint.
+1. Edit the output schema for the Python `Code` operator.
 1. Create a Db2 operator and add the connection details.
-1. Map the Code node schema with the target columns in the Db2 table.
+1. Map the `Code` operator schema with the target columns in the Db2 table.
 1. Save and run the streams flow.
 
 **N.B. This is an example only intended as a _starting point_ for using IBM Streams Designer to extract data from Cloudant and insert into Db2 Warehouse on Cloud. It is _not_ intended as a drop-in replacement for the deprecated Cloudant warehouse integration. In particular this example does not create or alter Db2 tables or handle document deletion.**
@@ -16,7 +16,7 @@ In this tutorial you will:
 These are the IBM Bluemix services required to run this tutorial:
 1. [Cloudant](https://console.bluemix.net/catalog/services/cloudant-nosql-db)
 1. [Db2 Warehouse on Cloud](https://console.bluemix.net/catalog/services/dashdb)
-1. [Streams Designer](https://www.ibm.com/cloud/streams-designer)
+1. [Watson Studio](https://datascience.ibm.com)
 
 # Setting up IBM Cloud services
 
@@ -55,11 +55,11 @@ Select the **Manually** box, then press **Create**.
 
 ## Create operators in the Streams Designer editor
 The first node we'll create is a Python node for loading documents from Cloudant.
-1. Drag and drop the Code operator under **Sources** on to the canvas.
-1. Select the Code operator and a right pane will open for editing the code.
+1. Drag and drop the `Code` operator under **Sources** on to the canvas.
+1. Select the `Code` operator and a right pane will open for editing the code.
 ![Code operator in Streams Designer](code-operator-streams-designer.png)
 1. Select `Python 3.5` as the coding language and replace what's existing with the code below.<br/>
-   **Note:** Add your Cloudant credentials as parameters on line `client = Cloudant(...)`.
+   **Note:** Add your Cloudant credentials as parameters in the Cloudant initializer `client = Cloudant(...)`.
     ```python
     import sys
     from cloudant import Cloudant
@@ -116,8 +116,8 @@ The first node we'll create is a Python node for loading documents from Cloudant
 
     Name | Type
     --- | --- 
-    id | Text
-    rev | Text
+    _id | Text
+    _rev | Text
     wiki_page | Text
     min_weight | Number
     max_weight | Number
@@ -138,12 +138,12 @@ and create a connection manually.
 1. Click on the icon under **Schema/Table** to select the Db2 table.
 1. Select your schema and `ANIMALS` table, then press **Select**.
 ![Select schema in Db2 operator](select-schema-table-db2-operator.png)
-1. Link the two operators together by dragging your mouse cursor from the output port of the Code operator to the input 
+1. Link the two operators together by dragging your mouse cursor from the output port of the `Code` operator to the input 
 port of the Db2 operator.
 ![Link operators in Streams Designer](link-operators-streams-designer.png)
 1. Select **Map Schema** in the Db2 operator's right pane.
 ![Select Map Schema in Db2 operator](map-schema-db2-operator.png)
-1. Assign the attributes previously created in the Code operator to it's equivalent Db2 target column, and then press **Save**.
+1. Assign the attributes previously created in the `Code` operator to it's equivalent Db2 target column, and then press **Save**.
 ![Map attributes to Db2 target columns](assign-attributes-db2-operator.png)
 1. Press the play icon in the Stream Designer toolbar to save and run the streams flow.
 ![Play icon in Streams Designer](play-icon-stream-designer.png)
